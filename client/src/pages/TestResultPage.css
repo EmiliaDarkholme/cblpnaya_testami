@@ -1,0 +1,143 @@
+/* client/src/pages/TestResultPage.css */
+.test-result-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  animation: fadeIn 0.5s ease;
+}
+
+.result-card {
+  max-width: 500px;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.result-card h2 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.test-title {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.score-circle {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+  border: 4px solid;
+}
+
+.score-circle.excellent { border-color: #10b981; }
+.score-circle.good { border-color: #3b82f6; }
+.score-circle.satisfactory { border-color: #f59e0b; }
+.score-circle.poor { border-color: #ef4444; }
+
+.score-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.score-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.grade-message {
+  margin-bottom: 28px;
+}
+
+.grade-message h3 {
+  font-size: 1.5rem;
+}
+
+.grade-message .excellent { color: #10b981; }
+.grade-message .good { color: #3b82f6; }
+.grade-message .satisfactory { color: #f59e0b; }
+.grade-message .poor { color: #ef4444; }
+
+.result-details {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 28px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: var(--text-secondary);
+}
+
+.detail-item strong {
+  color: var(--text-primary);
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary, .btn-secondary {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-secondary);
+}
+
+@media (max-width: 600px) {
+  .result-card {
+    padding: 24px 20px;
+  }
+
+  .score-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .score-number {
+    font-size: 2.5rem;
+  }
+
+  .result-actions {
+    flex-direction: column;
+  }
+}
