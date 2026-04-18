@@ -11,27 +11,51 @@ import { SettingsPage } from './pages/SettingsPage';
 import './App.css';
 import './pages/Pages.css';
 
+// Простое получение данных из Telegram WebApp
+function getTelegramUser() {
+  // @ts-ignore
+  if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+    // @ts-ignore
+    return window.Telegram.WebApp.initDataUnsafe.user;
+  }
+  return null;
+}
+
 function AppContent() {
-  const [username, setUsername] = useState<string>('');
+  const [user, setUser] = useState<any>(null);
   const [isInitializing, setIsInitializing] = useState(true);
 
   const { isProfileComplete, theme, setTheme } = useProfileStore();
 
   useEffect(() => {
-    // Простая авторизация — запрашиваем username
-    const savedUsername = localStorage.getItem('username');
+    // Пытаемся получить пользователя из Telegram
+    const tgUser = getTelegramUser();
 
-    if (!savedUsername) {
-      const input = prompt('Введите ваш username (например, @username):');
-      if (input) {
-        const cleanUsername = input.replace('@', '');
-        localStorage.setItem('username', cleanUsername);
-        setUsername(cleanUsername);
-      } else {
-        setUsername('guest');
+    if (tgUser) {
+      console.log('Пользователь Telegram:', tgUser);
+      setUser(tgUser);
+
+      // Сохраняем username
+      if (tgUser.username) {
+        localStorage.setItem('username', tgUser.username);
       }
     } else {
-      setUsername(savedUsername);
+      // Если не в Telegram — запрашиваем username
+      console.log('Не в Telegram, запрашиваем username');
+      const savedUsername = localStorage.getItem('username');
+
+      if (!savedUsername) {
+        const input = prompt('Введите ваш username (например, @username):');
+        if (input) {
+          const cleanUsername = input.replace('@', '');
+          localStorage.setItem('username', cleanUsername);
+          setUser({ username: cleanUsername, first_name: cleanUsername });
+        } else {
+          setUser({ username: 'guest', first_name: 'Гость' });
+        }
+      } else {
+        setUser({ username: savedUsername, first_name: savedUsername });
+      }
     }
 
     // Определяем тему
@@ -55,12 +79,16 @@ function AppContent() {
     );
   }
 
+  const displayName = user?.username
+    ? `@${user.username}`
+    : (user?.first_name || 'Гость');
+
   if (!isProfileComplete) {
     return (
       <div className="app-container">
         <header className="app-header">
           <h1>МедТест</h1>
-          <span className="user-greeting">@{username}</span>
+          <span className="user-greeting">{displayName}</span>
         </header>
         <main className="app-main">
           <Onboarding />
@@ -73,7 +101,7 @@ function AppContent() {
     <div className="app-container">
       <header className="app-header">
         <h1>МедТест</h1>
-        <span className="user-greeting">@{username}</span>
+        <span className="user-greeting">{displayName}</span>
       </header>
       <main className="app-main">
         <Routes>
