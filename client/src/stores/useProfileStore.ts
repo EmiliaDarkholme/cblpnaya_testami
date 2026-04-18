@@ -102,7 +102,6 @@ export const useProfileStore = create<ProfileState>()(
       },
 
       saveProfileToServer: async (faculty, course) => {
-  // Временно сохраняем только локально, без сервера
   set({
     faculty,
     course,
@@ -110,24 +109,22 @@ export const useProfileStore = create<ProfileState>()(
     isLoading: false
   });
 
-  // Опционально: пробуем сервер, но не ждём ответа
   try {
     await profileApi.updateProfile({ faculty, course });
   } catch (error) {
     console.log('Сервер недоступен, данные сохранены локально');
   }
-}
+},  // ← ЗАПЯТАЯ ЗДЕСЬ ВАЖНА
 
-      logout: () => {
-        authApi.logout();
-        set({
-          serverUser: null,
-          faculty: null,
-          course: null,
-          isProfileComplete: false
-        });
-      },
-    }),
+logout: () => {
+  authApi.logout();
+  set({
+    serverUser: null,
+    faculty: null,
+    course: null,
+    isProfileComplete: false
+  });
+},  // ← И ЗДЕСЬ ЗАПЯТАЯ
     {
       name: 'med-test-profile',
       partialize: (state) => ({
