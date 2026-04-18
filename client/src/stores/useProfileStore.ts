@@ -29,14 +29,11 @@ export const useProfileStore = create<ProfileState>()(
       setTheme: (theme) => set({ theme }),
       completeProfile: () => set({ isProfileComplete: true }),
 
-      resetProfile: () => {
-        localStorage.removeItem('username');
-        set({
-          faculty: null,
-          course: null,
-          isProfileComplete: false
-        });
-      },
+      resetProfile: () => set({
+        faculty: null,
+        course: null,
+        isProfileComplete: false
+      }),
     }),
     {
       name: 'med-test-profile',
