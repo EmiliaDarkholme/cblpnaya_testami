@@ -6,10 +6,7 @@ import { authApi } from '../api/auth';
 import type { Faculty, Course, Theme } from '../types';
 
 interface ProfileState {
-  // Данные с сервера
   serverUser: any | null;
-
-  // Локальные данные (тема, флаги)
   faculty: Faculty;
   course: Course;
   theme: Theme;
@@ -17,14 +14,12 @@ interface ProfileState {
   isLoading: boolean;
   error: string | null;
 
-  // Actions
   setFaculty: (faculty: Faculty) => void;
   setCourse: (course: Course) => void;
   setTheme: (theme: Theme) => void;
   completeProfile: () => void;
   resetProfile: () => void;
 
-  // API Actions
   fetchProfile: () => Promise<void>;
   saveProfileToServer: (faculty: Faculty, course: Course) => Promise<void>;
   loginWithTelegram: (telegramUser: any) => Promise<void>;
@@ -45,7 +40,6 @@ export const useProfileStore = create<ProfileState>()(
       setFaculty: (faculty) => set({ faculty }),
       setCourse: (course) => set({ course }),
       setTheme: (theme) => set({ theme }),
-
       completeProfile: () => set({ isProfileComplete: true }),
 
       resetProfile: () => {
@@ -58,7 +52,6 @@ export const useProfileStore = create<ProfileState>()(
         });
       },
 
-      // API методы
       loginWithTelegram: async (telegramUser) => {
         set({ isLoading: true, error: null });
         try {
@@ -102,29 +95,30 @@ export const useProfileStore = create<ProfileState>()(
       },
 
       saveProfileToServer: async (faculty, course) => {
-  set({
-    faculty,
-    course,
-    isProfileComplete: true,
-    isLoading: false
-  });
+        set({
+          faculty,
+          course,
+          isProfileComplete: true,
+          isLoading: false
+        });
 
-  try {
-    await profileApi.updateProfile({ faculty, course });
-  } catch (error) {
-    console.log('Сервер недоступен, данные сохранены локально');
-  }
-},  // ← ЗАПЯТАЯ ЗДЕСЬ ВАЖНА
+        try {
+          await profileApi.updateProfile({ faculty, course });
+        } catch (error) {
+          console.log('Сервер недоступен, данные сохранены локально');
+        }
+      },
 
-logout: () => {
-  authApi.logout();
-  set({
-    serverUser: null,
-    faculty: null,
-    course: null,
-    isProfileComplete: false
-  });
-},  // ← И ЗДЕСЬ ЗАПЯТАЯ
+      logout: () => {
+        authApi.logout();
+        set({
+          serverUser: null,
+          faculty: null,
+          course: null,
+          isProfileComplete: false
+        });
+      }
+    }),
     {
       name: 'med-test-profile',
       partialize: (state) => ({
