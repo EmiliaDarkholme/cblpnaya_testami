@@ -21,25 +21,23 @@ const courses: { value: Course; label: string }[] = [
 ];
 
 export const Onboarding = () => {
-  const { saveProfileToServer, isLoading } = useProfileStore();
+  const { setFaculty, setCourse, completeProfile } = useProfileStore();
   const [selectedFaculty, setSelectedFaculty] = useState<Faculty>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course>(null);
 
-  const handleSubmit = async () => {
-  if (selectedFaculty && selectedCourse) {
-    // Сразу сохраняем локально и переходим дальше
-    setFaculty(selectedFaculty);
-    setCourse(selectedCourse);
-    completeProfile();
+  const handleSubmit = () => {
+    if (selectedFaculty && selectedCourse) {
+      setFaculty(selectedFaculty);
+      setCourse(selectedCourse);
+      completeProfile();
 
-    // Пробуем сохранить на сервер в фоне
-    try {
-      await saveProfileToServer(selectedFaculty, selectedCourse);
-    } catch (error) {
-      // Игнорируем ошибку
+      // Сохраняем в localStorage
+      const username = localStorage.getItem('username') || 'guest';
+      const profiles = JSON.parse(localStorage.getItem('profiles') || '{}');
+      profiles[username] = { faculty: selectedFaculty, course: selectedCourse };
+      localStorage.setItem('profiles', JSON.stringify(profiles));
     }
-  }
-};
+  };
 
   const isValid = selectedFaculty && selectedCourse;
 
@@ -59,7 +57,6 @@ export const Onboarding = () => {
                 key={faculty.value}
                 className={`option-btn ${selectedFaculty === faculty.value ? 'selected' : ''}`}
                 onClick={() => setSelectedFaculty(faculty.value)}
-                disabled={isLoading}
               >
                 {faculty.label}
               </button>
@@ -75,7 +72,6 @@ export const Onboarding = () => {
                 key={course.value}
                 className={`option-btn ${selectedCourse === course.value ? 'selected' : ''}`}
                 onClick={() => setSelectedCourse(course.value)}
-                disabled={isLoading}
               >
                 {course.label}
               </button>
@@ -86,9 +82,9 @@ export const Onboarding = () => {
         <button
           className="submit-btn"
           onClick={handleSubmit}
-          disabled={!isValid || isLoading}
+          disabled={!isValid}
         >
-          {isLoading ? 'Сохранение...' : 'Начать обучение 🚀'}
+          Начать обучение 🚀
         </button>
       </div>
     </div>
