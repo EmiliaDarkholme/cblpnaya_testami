@@ -102,22 +102,21 @@ export const useProfileStore = create<ProfileState>()(
       },
 
       saveProfileToServer: async (faculty, course) => {
-        set({ isLoading: true, error: null });
-        try {
-          const updated = await profileApi.updateProfile({ faculty, course });
-          set({
-            serverUser: updated,
-            faculty: updated.faculty,
-            course: updated.course,
-            isProfileComplete: true,
-            isLoading: false
-          });
-        } catch (error: any) {
-          console.error('Ошибка сохранения профиля:', error);
-          set({ error: error.message, isLoading: false });
-          throw error;
-        }
-      },
+  // Временно сохраняем только локально, без сервера
+  set({
+    faculty,
+    course,
+    isProfileComplete: true,
+    isLoading: false
+  });
+
+  // Опционально: пробуем сервер, но не ждём ответа
+  try {
+    await profileApi.updateProfile({ faculty, course });
+  } catch (error) {
+    console.log('Сервер недоступен, данные сохранены локально');
+  }
+}
 
       logout: () => {
         authApi.logout();

@@ -26,14 +26,20 @@ export const Onboarding = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course>(null);
 
   const handleSubmit = async () => {
-    if (selectedFaculty && selectedCourse) {
-      try {
-        await saveProfileToServer(selectedFaculty, selectedCourse);
-      } catch (error) {
-        alert('Ошибка сохранения профиля. Попробуйте ещё раз.');
-      }
+  if (selectedFaculty && selectedCourse) {
+    // Сразу сохраняем локально и переходим дальше
+    setFaculty(selectedFaculty);
+    setCourse(selectedCourse);
+    completeProfile();
+
+    // Пробуем сохранить на сервер в фоне
+    try {
+      await saveProfileToServer(selectedFaculty, selectedCourse);
+    } catch (error) {
+      // Игнорируем ошибку
     }
-  };
+  }
+};
 
   const isValid = selectedFaculty && selectedCourse;
 
