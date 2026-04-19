@@ -5,10 +5,10 @@ import { useProfileStore } from './stores/useProfileStore';
 import { Onboarding } from './components/Onboarding';
 import { HomePage } from './pages/HomePage';
 import { TestPage } from './pages/TestPage';
+import { TestTakingPage } from './pages/TestTakingPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
-import { TestTakingPage } from './pages/TestTakingPage';
 import './App.css';
 import './pages/Pages.css';
 
@@ -16,7 +16,6 @@ function AppContent() {
   const { isProfileComplete, theme, setTheme } = useProfileStore();
 
   useEffect(() => {
-    // Определяем тему
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setTheme(prefersDark ? 'dark' : 'light');
     document.documentElement.className = prefersDark ? 'dark' : 'light';
@@ -26,6 +25,7 @@ function AppContent() {
     document.documentElement.className = theme;
   }, [theme]);
 
+  // Если профиль не заполнен - показываем Onboarding
   if (!isProfileComplete) {
     return (
       <div className="app-container">
@@ -48,11 +48,11 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/test" element={<TestPage />} />
+          <Route path="/test/:id" element={<TestTakingPage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/test/:id" element={<TestTakingPage />} />
         </Routes>
       </main>
     </div>

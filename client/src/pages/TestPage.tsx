@@ -20,19 +20,31 @@ export const TestPage = () => {
 
   // Загрузка дисциплин
   useEffect(() => {
-    const loadDisciplines = async () => {
+  const loadDisciplines = async () => {
+    try {
+      setLoading(true);
+      // Временно используем моковые данные, если сервер не отвечает
+      const mockDisciplines = [
+        { id: 1, name: 'Анатомия человека', faculty: 'лечебный', course: 1, tests_count: 3 },
+        { id: 2, name: 'Биохимия', faculty: 'лечебный', course: 2, tests_count: 2 },
+        { id: 3, name: 'Пропедевтика', faculty: 'лечебный', course: 3, tests_count: 1 },
+      ];
+
       try {
-        setLoading(true);
         const data = await testsApi.getDisciplines();
         setDisciplines(data);
-      } catch (error) {
-        console.error('Ошибка загрузки дисциплин:', error);
-      } finally {
-        setLoading(false);
+      } catch {
+        console.log('Используем моковые данные');
+        setDisciplines(mockDisciplines);
       }
-    };
-    loadDisciplines();
-  }, []);
+    } catch (error) {
+      console.error('Ошибка загрузки:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  loadDisciplines();
+}, []);
 
   // Выбор дисциплины
   const handleSelectDiscipline = async (discipline: Discipline) => {
