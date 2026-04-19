@@ -287,6 +287,91 @@ h3 {
     padding: 12px;
   }
 
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.clear-btn {
+  padding: 8px 16px;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.clear-btn:hover {
+  opacity: 0.8;
+}
+
+.empty-history {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.empty-history p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.history-item {
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+.history-item:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.history-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.history-item-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.score-badge {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.score-badge.good {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.score-badge.poor {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+
+.history-item-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
   .history-item-header {
     flex-direction: column;
     align-items: flex-start;

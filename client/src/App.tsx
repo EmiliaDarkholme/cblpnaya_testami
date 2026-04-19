@@ -8,6 +8,7 @@ import { TestPage } from './pages/TestPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
+import { TestTakingPage } from './pages/TestTakingPage';
 import './App.css';
 import './pages/Pages.css';
 
@@ -51,6 +52,7 @@ function AppContent() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/test/:id" element={<TestTakingPage />} />
         </Routes>
       </main>
     </div>

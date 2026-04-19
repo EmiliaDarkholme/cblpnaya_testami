@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { testsApi } from '../api/tests';
 import type { Discipline, Section, Test } from '../types/tests';
 import './TestPage.css';
-import { useNavigate } from 'react-router-dom';
 
 
 
